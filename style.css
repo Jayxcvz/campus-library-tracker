@@ -1,0 +1,550 @@
+/* ==========================================================================
+   Campus Library Tracker - Modern Interactive Design System
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+
+/* --- Custom Properties & Theme Tokens --- */
+:root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --primary: #1e3a8a;
+    --primary-light: #2563eb;
+    --primary-glow: rgba(37, 99, 235, 0.28);
+    
+    --emerald-accent: #10b981;
+    --emerald-glow: rgba(16, 185, 129, 0.28);
+    
+    --amber-accent: #f59e0b;
+    --amber-glow: rgba(245, 158, 11, 0.28);
+    
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --card-border: rgba(226, 232, 240, 0.85);
+    --card-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.07), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+}
+
+/* --- Base Body & Ambient Background --- */
+body {
+    font-family: var(--font-sans);
+    background-color: #f8fafc;
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(241, 245, 249, 0.6) 0px, transparent 100%),
+        radial-gradient(at 85% 90%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
+    background-attachment: fixed;
+    color: #0f172a;
+    min-height: 100vh;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ambient floating glow orbs */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.7;
+    animation: ambientFloat 16s infinite alternate ease-in-out;
+}
+
+body::before {
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(99, 102, 241, 0.05) 70%, transparent 100%);
+    top: -100px;
+    right: 5%;
+}
+
+body::after {
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(56, 189, 248, 0.04) 70%, transparent 100%);
+    bottom: -80px;
+    left: 5%;
+    animation-delay: -8s;
+}
+
+@keyframes ambientFloat {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(40px, 45px) scale(1.08);
+    }
+    100% {
+        transform: translate(-30px, 25px) scale(0.95);
+    }
+}
+
+/* --- Header Section Typography & Effects --- */
+header h1 {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.03em;
+    position: relative;
+}
+
+/* --- Card Glassmorphic & Elevation Styling --- */
+.form-card,
+.database-card,
+.stat-card,
+section.bg-white,
+div.bg-white {
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background-color: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
+    box-shadow: var(--card-shadow), inset 0 1px 1px 0 rgba(255, 255, 255, 0.85);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.3s ease;
+}
+
+.form-card:hover,
+.database-card:hover {
+    border-color: rgba(203, 213, 225, 0.9) !important;
+    box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.09), inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* --- Interactive Stat Counter Cards --- */
+.stat-card,
+.grid-cols-3 > div {
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    border-radius: 1rem;
+    translate: 0 0;
+    scale: 1;
+    transition: translate 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                scale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+}
+
+/* Top accent color stripe */
+.stat-card::before,
+.grid-cols-3 > div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    opacity: 0.85;
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+/* Total Card */
+.stat-total::before,
+.grid-cols-3 > div:nth-child(1)::before {
+    background: linear-gradient(90deg, #3b82f6, #6366f1);
+}
+.stat-total:hover,
+.grid-cols-3 > div:nth-child(1):hover {
+    translate: 0 -6px;
+    scale: 1.03;
+    border-color: rgba(59, 130, 246, 0.45) !important;
+    box-shadow: 0 18px 34px -6px rgba(59, 130, 246, 0.24);
+}
+.stat-total:hover::before,
+.grid-cols-3 > div:nth-child(1):hover::before {
+    height: 6px;
+    opacity: 1;
+}
+
+/* Available Card */
+.stat-available::before,
+.grid-cols-3 > div:nth-child(2)::before {
+    background: linear-gradient(90deg, #10b981, #059669);
+}
+.stat-available:hover,
+.grid-cols-3 > div:nth-child(2):hover {
+    translate: 0 -6px;
+    scale: 1.03;
+    border-color: rgba(16, 185, 129, 0.45) !important;
+    box-shadow: 0 18px 34px -6px rgba(16, 185, 129, 0.24);
+}
+.stat-available:hover::before,
+.grid-cols-3 > div:nth-child(2):hover::before {
+    height: 6px;
+    opacity: 1;
+}
+
+/* Borrowed Card */
+.stat-borrowed::before,
+.grid-cols-3 > div:nth-child(3)::before {
+    background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+.stat-borrowed:hover,
+.grid-cols-3 > div:nth-child(3):hover {
+    translate: 0 -6px;
+    scale: 1.03;
+    border-color: rgba(245, 158, 11, 0.45) !important;
+    box-shadow: 0 18px 34px -6px rgba(245, 158, 11, 0.24);
+}
+.stat-borrowed:hover::before,
+.grid-cols-3 > div:nth-child(3):hover::before {
+    height: 6px;
+    opacity: 1;
+}
+
+/* Counter numbers typography and interactive scaling */
+#totalCount,
+#availableCount,
+#borrowedCount {
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    scale: 1;
+    transition: scale 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                text-shadow 0.25s ease,
+                color 0.25s ease;
+}
+
+.stat-card:hover #totalCount,
+.grid-cols-3 > div:nth-child(1):hover #totalCount {
+    scale: 1.1;
+    color: #1e3a8a;
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
+}
+
+.stat-card:hover #availableCount,
+.grid-cols-3 > div:nth-child(2):hover #availableCount {
+    scale: 1.1;
+    color: #047857;
+    text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.stat-card:hover #borrowedCount,
+.grid-cols-3 > div:nth-child(3):hover #borrowedCount {
+    scale: 1.1;
+    color: #b45309;
+    text-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+}
+
+/* --- Form Inputs Interactivity --- */
+input[type="text"] {
+    font-family: inherit;
+    background-color: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    translate: 0 0;
+    transition: border-color 0.2s ease, 
+                box-shadow 0.2s ease, 
+                background-color 0.2s ease,
+                translate 0.2s ease;
+}
+
+input[type="text"]:hover {
+    border-color: #cbd5e1;
+    background-color: #ffffff;
+}
+
+input[type="text"]:focus {
+    background-color: #ffffff;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.16), 0 4px 12px rgba(59, 130, 246, 0.08) !important;
+    translate: 0 -1.5px;
+}
+
+/* Form Submit Button with Interactive Shine & Lift */
+button[type="submit"] {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%) !important;
+    border: none;
+    box-shadow: 0 4px 16px 0 rgba(37, 99, 235, 0.38);
+    translate: 0 0;
+    scale: 1;
+    cursor: pointer;
+    transition: translate 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                scale 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.25s ease,
+                filter 0.25s ease;
+}
+
+/* Light gleam sweep effect on button hover */
+button[type="submit"]::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -70%;
+    width: 45%;
+    height: 200%;
+    background: linear-gradient(
+        60deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(25deg);
+    transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0;
+    pointer-events: none;
+}
+
+button[type="submit"]:hover {
+    translate: 0 -2.5px;
+    box-shadow: 0 10px 25px -2px rgba(37, 99, 235, 0.48);
+    filter: brightness(1.06);
+}
+
+button[type="submit"]:hover::after {
+    left: 140%;
+    opacity: 1;
+}
+
+button[type="submit"]:active {
+    translate: 0 1px;
+    scale: 0.97;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* --- Library Database Items & Animations --- */
+@keyframes itemEntrance {
+    0% {
+        opacity: 0;
+        translate: 0 16px;
+        scale: 0.97;
+    }
+    100% {
+        opacity: 1;
+        translate: 0 0;
+        scale: 1;
+    }
+}
+
+#itemList > li {
+    animation: itemEntrance 0.38s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    position: relative;
+    translate: 0 0;
+    transition: background-color 0.25s ease,
+                translate 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s ease,
+                border-left-width 0.2s ease,
+                border-color 0.2s ease;
+}
+
+/* Status Indicator border stripe on left */
+#itemList > li.bg-white {
+    border-left: 4.5px solid #10b981;
+}
+
+#itemList > li.bg-slate-50 {
+    border-left: 4.5px solid #f59e0b;
+    background-color: rgba(248, 250, 252, 0.88) !important;
+}
+
+#itemList > li:hover {
+    background-color: #ffffff !important;
+    translate: 0 -2px;
+    border-left-width: 7px;
+    box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.09);
+    z-index: 2;
+}
+
+/* Pulsing radar dots on badges */
+@keyframes radarGreen {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+@keyframes radarAmber {
+    0% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+    }
+}
+
+#itemList span.bg-emerald-100 {
+    background-color: rgba(209, 250, 229, 0.85) !important;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #065f46 !important;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.15);
+    font-weight: 600;
+}
+
+#itemList span.bg-emerald-100::before {
+    content: '';
+    display: inline-block;
+    width: 6.5px;
+    height: 6.5px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background-color: #10b981;
+    animation: radarGreen 2s infinite ease-in-out;
+}
+
+#itemList span.bg-amber-100 {
+    background-color: rgba(254, 243, 199, 0.85) !important;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #92400e !important;
+    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.15);
+    font-weight: 600;
+}
+
+#itemList span.bg-amber-100::before {
+    content: '';
+    display: inline-block;
+    width: 6.5px;
+    height: 6.5px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background-color: #f59e0b;
+    animation: radarAmber 2s infinite ease-in-out;
+}
+
+/* --- List Item Content Typography --- */
+#itemList li h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: -0.015em;
+    transition: color 0.2s ease;
+}
+
+#itemList li:hover h3 {
+    color: #0f172a;
+}
+
+#itemList li p {
+    font-size: 0.8125rem;
+    color: #64748b;
+}
+
+/* Action Buttons inside List Item */
+#itemList button {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 0.55rem;
+    translate: 0 0;
+    scale: 1;
+    transition: translate 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                scale 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+#itemList button:active {
+    scale: 0.94;
+    translate: 0 1px;
+}
+
+/* Borrow button hover */
+#itemList button[onclick*="toggleItemStatus"] {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+}
+
+#itemList button[onclick*="toggleItemStatus"]:hover {
+    background-color: #fffbeb !important;
+    border-color: #f59e0b !important;
+    color: #b45309 !important;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.24);
+    translate: 0 -1.5px;
+}
+
+/* Return button (when item is borrowed) */
+#itemList li.bg-slate-50 button[onclick*="toggleItemStatus"] {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+}
+
+#itemList li.bg-slate-50 button[onclick*="toggleItemStatus"]:hover {
+    background-color: #ecfdf5 !important;
+    border-color: #10b981 !important;
+    color: #047857 !important;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.24);
+    translate: 0 -1.5px;
+}
+
+/* Delete button */
+#itemList button[onclick*="deleteItemRecord"] {
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: #ef4444;
+}
+
+#itemList button[onclick*="deleteItemRecord"]:hover {
+    background-color: #fee2e2 !important;
+    border-color: #fca5a5 !important;
+    color: #b91c1c !important;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.24);
+    translate: 0 -1.5px;
+}
+
+/* --- Empty State Floating Animation --- */
+@keyframes floatBook {
+    0%, 100% {
+        translate: 0 0;
+        rotate: 0deg;
+    }
+    50% {
+        translate: 0 -9px;
+        rotate: -2deg;
+    }
+}
+
+#emptyState svg {
+    animation: floatBook 3.8s infinite ease-in-out;
+    filter: drop-shadow(0 10px 14px rgba(59, 130, 246, 0.12));
+}
+
+/* --- Sleek Custom Scrollbar --- */
+#itemList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#itemList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#itemList::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+}
+
+#itemList::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* --- Accessibility: Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+        translate: none !important;
+        scale: none !important;
+    }
+}
